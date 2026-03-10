@@ -4,6 +4,9 @@ function App() {
   /* You will need to use many state to keep the inut values and other needs */
   const [a , setA] = useState(0)
   const [b , setB] = useState(0)
+  const [result , setResult] = useState('')
+  const [check , setCheck] = useState(false) // fasle = no warning
+
   /* You will need some function to handle the key pressed and button events */
 function onA (e){
   setA(e.target.value)
@@ -12,11 +15,21 @@ function onA (e){
 function onB (e){
   setB(e.target.value)
 }
+
+function checked(e) {
+  setCheck(e.target.value)
+}
+
 function compute(){
-  if(typeof a === 'number' && typeof b === 'number'){
-    return a+b
+  const numA = Number(a)
+  const numB = Number(b)
+
+  if(!isNaN(numA) && !isNaN(numB)){
+    setCheck(false)
+    setResult(numA+numB)
   }else{
-    return "this is not a number"
+    setCheck(true)
+    setResult('A and B shall be number')
   }
 }
   return (
@@ -32,7 +45,7 @@ function compute(){
       <label>A + B =</label>
 
       {/* When Compute buton is clicked, this input display the sum of the 2 numbers, or the error message in RED */}
-      <input disable value={compute()}/> 
+      <input disable className={check ? "error" : ""} value={result}/> 
       <button onClick={compute}>Compute</button>
     </main>
   );
